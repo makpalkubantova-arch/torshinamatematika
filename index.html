@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Формула скорости — тренажёры быстрого мышления</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Onest:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1B1240;--muted:#6B5F94;--display:"Unbounded","Arial Black",sans-serif;--body:"Onest","Segoe UI",Arial,sans-serif;
+ --c1:#FF3D7F;--c2:#FF8A00;--c3:#FFD23F;--c4:#21D19F;--c5:#00B4FF;--c6:#7B5CFF;}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--body);color:var(--ink);background:#1B1240;overflow-x:hidden}
+button{font:inherit}
+h1,h2,h3{font-family:var(--display);margin:0;font-weight:700;text-wrap:balance}
+/* ===== HOME ===== */
+.home{position:relative;min-height:100dvh;overflow:hidden;
+ background:radial-gradient(60% 45% at 80% 12%,rgba(255,210,63,.55),transparent 70%),linear-gradient(180deg,#4B2BD6 0%,#9B3CF0 28%,#FF5DA2 58%,#FF9A5C 78%,#FFD089 100%)}
+.top{position:relative;z-index:3;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:14px max(14px,calc(50vw - 560px)) 0}
+.brand{display:flex;gap:10px;align-items:center;color:#fff}
+.logo{width:46px;height:46px;border-radius:14px;background:conic-gradient(from 200deg,var(--c3),var(--c2),var(--c1),var(--c6),var(--c5),var(--c4),var(--c3));display:grid;place-items:center;box-shadow:0 8px 20px -6px rgba(0,0,0,.4),inset 0 2px 0 rgba(255,255,255,.6)}
+.logo svg{width:28px;height:28px}
+.brand b{font-family:var(--display);font-size:clamp(17px,2.4vw,22px);display:block;line-height:1.05;text-shadow:0 2px 0 rgba(0,0,0,.15)}
+.brand small{font-size:12px;opacity:.9;font-weight:600}
+.pilot{display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:6px 6px 6px 14px;color:#fff;font-weight:700}
+.pilot input{font:inherit;font-weight:700;border:0;border-radius:999px;padding:8px 12px;width:150px;color:var(--ink);background:#fff}
+.pilot input:focus{outline:3px solid var(--c3)}
+.hero{position:relative;z-index:2;text-align:center;color:#fff;padding:8px 14px 0}
+.hero h1{font-size:clamp(32px,7vw,76px);font-weight:900;line-height:.98;letter-spacing:-.01em;text-shadow:0 4px 0 #3A1AA8,0 14px 30px rgba(40,10,120,.45)}
+.hero h1 span{background:linear-gradient(90deg,var(--c3),#fff 50%,var(--c3));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 4px 0 #3A1AA8)}
+.hero p{margin:8px auto 0;max-width:640px;font-weight:600;font-size:clamp(14px,1.7vw,18px);opacity:.95}
+.stage{position:relative;z-index:2;display:flex;justify-content:center;perspective:1300px}
+#track{width:min(100vw,calc((100dvh - 190px) * .74));min-width:min(100vw,360px);height:auto;overflow:visible;transition:transform .3s ease-out;animation:arrive 1s cubic-bezier(.2,.9,.2,1.1) both}
+@keyframes arrive{from{opacity:0;transform:translateY(50px) rotateX(20deg) scale(.92)}to{opacity:1;transform:none}}
+#track .gate{cursor:pointer;outline:none}
+#track .gate .ball{transition:transform .25s;transform-box:fill-box;transform-origin:center bottom}
+#track .gate:hover .ball,#track .gate:focus-visible .ball{transform:translateY(-8px) scale(1.06)}
+#track .gate:focus-visible .ring{stroke:#fff;stroke-width:5}
+#track .float{animation:bob 3s ease-in-out infinite;transform-box:fill-box}
+@keyframes bob{50%{transform:translateY(-8px)}}
+#track .tt{font-family:var(--display);font-weight:700;font-size:20px;fill:#fff;pointer-events:none}
+#track .ts{font-family:var(--body);font-weight:800;font-size:14px;fill:#fff;opacity:.95;pointer-events:none}
+#track .num{font-family:var(--display);font-weight:900;font-size:26px;fill:#fff;pointer-events:none}
+#track .dash{animation:dash 1.2s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-44}}
+#track .sunrot{animation:spin 40s linear infinite;transform-origin:820px 90px}
+@keyframes spin{to{transform:rotate(360deg)}}
+#track .star{animation:tw 2.4s ease-in-out infinite}
+@keyframes tw{50%{opacity:.2}}
+#car{transition:transform 1.2s cubic-bezier(.5,0,.2,1)}
+.hint{position:relative;z-index:2;text-align:center;color:#fff;font-weight:700;padding:0 14px 18px;text-shadow:0 2px 8px rgba(60,10,120,.4)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
+.chip{border:0;cursor:pointer;border-radius:999px;padding:10px 16px;font-weight:800;color:var(--ink);background:#fff;box-shadow:0 8px 18px -8px rgba(0,0,0,.4)}
+.chip.gold{background:linear-gradient(135deg,#FFE27A,#FFB800)}
+.chip:focus-visible{outline:3px solid var(--c3);outline-offset:2px}
+/* ===== ROOMS ===== */
+.room{position:fixed;inset:0;z-index:50;display:none;overflow-y:auto;overscroll-behavior:contain;
+ background:radial-gradient(60vw 40vw at 100% 0%,color-mix(in srgb,var(--c) 22%,transparent),transparent 70%),radial-gradient(50vw 40vw at 0% 100%,color-mix(in srgb,var(--c2) 20%,transparent),transparent 70%),#FFFBF5}
+.room.open{display:block;animation:open .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes open{from{clip-path:circle(0 at var(--ox,50%) var(--oy,50%))}to{clip-path:circle(150% at var(--ox,50%) var(--oy,50%))}}
+.bar{position:sticky;top:0;z-index:5;display:flex;gap:10px;align-items:center;padding:12px max(14px,calc(50vw - 520px));background:rgba(255,255,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:4px solid var(--c)}
+.back{border:0;cursor:pointer;border-radius:999px;padding:10px 16px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--c),var(--c2))}
+.back:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.bar .t{flex:1;min-width:0}
+.bar .t b{font-family:var(--display);font-size:16px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t small{color:var(--muted);font-weight:700;font-size:12px}
+.wrap{max-width:1040px;margin:0 auto;padding:22px 16px 60px}
+.lead{color:var(--muted);font-weight:600;max-width:720px;margin:6px 0 16px}
+.kick{font-family:var(--display);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--c);font-weight:700}
+.room h2{font-size:clamp(24px,3.6vw,38px)}
+.arena{position:relative;background:#fff;border-radius:28px;padding:18px;box-shadow:0 24px 50px -30px color-mix(in srgb,var(--c) 70%,#000);border:2px solid color-mix(in srgb,var(--c) 25%,#fff);text-align:center;min-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.hud{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:7px 14px;font-weight:800;background:color-mix(in srgb,var(--c) 12%,#fff);color:color-mix(in srgb,var(--c) 70%,#000);border:1.5px solid color-mix(in srgb,var(--c) 30%,#fff)}
+.big{font-family:var(--display);font-weight:900;font-size:clamp(34px,7vw,72px);line-height:1.05;color:var(--ink)}
+.btn{border:0;cursor:pointer;border-radius:18px;padding:14px 22px;font-weight:800;font-size:18px;color:#fff;background:linear-gradient(135deg,var(--c),var(--c2));box-shadow:0 10px 0 -2px color-mix(in srgb,var(--c) 60%,#000),0 18px 26px -14px var(--c);transition:transform .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 5px 0 -2px color-mix(in srgb,var(--c) 60%,#000)}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.btn.ghost{background:#fff;color:var(--ink);box-shadow:0 6px 0 -2px #ddd;border:2px solid color-mix(in srgb,var(--c) 40%,#fff)}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(120px,1fr));gap:12px;width:min(520px,100%)}
+.opt{border:0;cursor:pointer;border-radius:20px;padding:18px 10px;font-family:var(--display);font-weight:700;font-size:clamp(22px,4vw,34px);color:var(--ink);background:#fff;border:3px solid color-mix(in srgb,var(--c) 35%,#fff);box-shadow:0 8px 0 -2px color-mix(in srgb,var(--c) 30%,#fff)}
+.opt:hover{background:color-mix(in srgb,var(--c) 8%,#fff)}
+.opt:focus-visible{outline:3px solid var(--ink)}
+.opt.ok{background:#DDFBEF;border-color:#21D19F}
+.opt.no{background:#FFE3EA;border-color:#FF3D7F}
+.timer{width:100%;max-width:560px;height:14px;border-radius:999px;background:#F1ECFA;overflow:hidden}
+.timer i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--c2),var(--c));transform-origin:left;transition:transform .1s linear}
+.result{background:linear-gradient(135deg,color-mix(in srgb,var(--c) 12%,#fff),#fff);border-radius:22px;padding:16px 18px;border:2px dashed color-mix(in srgb,var(--c) 40%,#fff);max-width:560px}
+.result b{font-family:var(--display)}
+.tip{background:#FFF6D6;border-radius:16px;padding:10px 14px;font-weight:600;color:#6B4A00;max-width:640px;margin:14px auto 0;text-align:left}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.card{background:#fff;border-radius:22px;padding:16px;border:2px solid color-mix(in srgb,var(--c) 18%,#fff);border-top:6px solid var(--c);box-shadow:0 16px 30px -24px var(--c)}
+/* reaction */
+.light{width:min(260px,60vw);aspect-ratio:1;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:clamp(20px,4vw,30px);color:#fff;background:radial-gradient(circle at 35% 30%,#ff9a9a,#E5203C 60%,#9E0F25);box-shadow:0 0 0 14px #2A1D52,0 0 0 18px #4A3A85,0 30px 50px -20px #000;transition:background .1s}
+.light.wait{background:radial-gradient(circle at 35% 30%,#ffe9a0,#FFB800 60%,#B57A00)}
+.light.go{background:radial-gradient(circle at 35% 30%,#b6ffd9,#14C77E 60%,#07804F);box-shadow:0 0 0 14px #2A1D52,0 0 0 18px #4A3A85,0 0 60px 20px rgba(20,199,126,.7)}
+.light:focus-visible{outline:4px solid var(--c3);outline-offset:8px}
+/* schulte */
+.schulte{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:min(460px,100%)}
+.schulte button{aspect-ratio:1;border:0;border-radius:16px;cursor:pointer;font-family:var(--display);font-weight:900;font-size:clamp(20px,5vw,32px);color:#fff;box-shadow:inset 0 -6px 0 rgba(0,0,0,.18)}
+.schulte button.done{opacity:.25;transform:scale(.92)}
+.schulte button.bad{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.flash{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;min-height:120px;align-items:center}
+.flash svg{width:72px;height:72px}
+.opts.shapes .opt{display:grid;place-items:center;padding:12px}
+.opts.shapes svg{width:60px;height:60px}
+/* records */
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px 8px;border-bottom:1px solid #EEE6F7;text-align:left}
+th{font-family:var(--display);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--c)}
+.spark{width:120px;height:32px}
+.lvl{display:inline-block;border-radius:999px;padding:3px 10px;font-weight:800;font-size:13px}
+.lvl.l1{background:#FFE3EA;color:#B0103F}.lvl.l2{background:#FFF2C9;color:#8A5A00}.lvl.l3{background:#DDFBEF;color:#0B7A55}
+/* teams */
+.teams{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%}
+.team{border-radius:24px;padding:16px;color:#fff;text-align:center}
+.team .sc{font-family:var(--display);font-weight:900;font-size:clamp(48px,10vw,96px);line-height:1}
+.team input{font:inherit;font-weight:800;text-align:center;border:0;border-radius:12px;padding:6px 8px;width:100%;max-width:220px;margin-bottom:8px}
+.team .row{display:flex;gap:8px;justify-content:center;margin-top:8px}
+.team button{border:0;cursor:pointer;border-radius:14px;padding:10px 16px;font-weight:900;font-size:20px;background:#fff;color:var(--ink)}
+.q{font-family:var(--display);font-weight:700;font-size:clamp(24px,5vw,46px)}
+.cert{width:min(680px,100%);border-radius:24px;padding:26px;background:linear-gradient(135deg,#FFF6D6,#FFFFFF 50%,#E9E2FF);border:6px double #FFB800;text-align:center}
+.cert h3{font-size:clamp(20px,3vw,30px);color:#5B2CC9}
+.cert .nm{font-family:var(--display);font-size:clamp(26px,5vw,44px);font-weight:900;margin:10px 0;background:linear-gradient(90deg,#FF3D7F,#FF8A00,#7B5CFF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.conf{position:fixed;inset:0;pointer-events:none;z-index:80}
+footer{background:#1B1240;color:#CFC6F2;text-align:center;font-size:13px;padding:16px}
+#r-compare .opts{grid-template-columns:repeat(3,1fr)}
+@media (max-width:640px){.teams{grid-template-columns:1fr}.opts{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.home,.bar,footer,.noprint{display:none!important}.room{position:static;display:block!important;background:#fff}}
+</style>
+</head>
+<body>
+<header class="home" id="home">
+  <div class="top">
+    <div class="brand"><div class="logo" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M16 2 6 16h7l-2 10 11-15h-7z" fill="#fff"/></svg></div><div><b>Формула скорости</b><small>тренажёры быстрого мышления · 3–4 классы</small></div></div>
+    <label class="pilot">Пилот: <input id="pilot" maxlength="20" placeholder="Твоё имя" autocomplete="off"></label>
+  </div>
+  <div class="hero">
+    <h1>Гонка <span>быстрых умов</span></h1>
+    <p>Шесть кругов — шесть разделов программы. Нажми на станцию, тренируйся и соревнуйся… с самим собой вчерашним!</p>
+  </div>
+  <div class="stage" id="stage"></div>
+  <div class="hint">
+    <div class="chips">
+      <button class="chip gold" data-go="records">🏆 Мой гараж рекордов</button>
+      <button class="chip" data-go="teams">⚡ Командный блиц</button>
+      <button class="chip" data-go="cert">🎖 Фестиваль быстрых умов</button>
+      <button class="chip" data-go="teacher">📘 Учителю</button>
+    </div>
+  </div>
+</header>
+<footer>Авторская программа «Развитие скорости мышления: тренажёры, игры, соревнования» · Торшина А. М. · Школа-лицей BINOM SCHOOL имени Кадыра Мырза Али · Астана</footer>
+
+<div id="rooms"></div>
+<canvas class="conf" id="conf"></canvas>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const R=(a,b)=>Math.floor(Math.random()*(b-a+1))+a, pick=a=>a[Math.floor(Math.random()*a.length)], shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+/* ---------- storage ---------- */
+const store={get(k,d){try{const v=localStorage.getItem('fs_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('fs_'+k,JSON.stringify(v))}catch(e){}}};
+let MEM={};const pilot=()=>($('#pilot').value.trim()||'Гость');
+$('#pilot').value=store.get('pilot','');$('#pilot').addEventListener('change',()=>{store.set('pilot',$('#pilot').value.trim());moveCar()});
+function hist(){const all=store.get('hist',{});return all[pilot()]||{}}
+function save(id,val){const all=store.get('hist',{});const me=all[pilot()]||{};(me[id]=me[id]||[]).push({v:val,t:Date.now()});if(me[id].length>40)me[id].shift();all[pilot()]=me;store.set('hist',all);moveCar()}
+/* ---------- trainers meta ---------- */
+// better: 'low' = less is better (time), 'high' = more is better
+const T=[
+ {id:'react',sec:1,name:'Светофор',sub:'скорость реакции',c:'#FF3D7F',c2:'#FF8A00',unit:'мс',better:'low',lv:[450,320],emoji:'🚦'},
+ {id:'chain',sec:1,name:'Цепочки',sub:'закономерности',c:'#FF8A00',c2:'#FFD23F',unit:'очк.',better:'high',lv:[6,12],emoji:'🔗'},
+ {id:'schulte',sec:2,name:'Таблица Шульте',sub:'внимание',c:'#FFB800',c2:'#FF8A00',unit:'с',better:'low',lv:[70,45],emoji:'🔢'},
+ {id:'flash',sec:2,name:'Вспышка',sub:'зрительная память',c:'#21D19F',c2:'#00B4FF',unit:'эл.',better:'high',lv:[4,7],emoji:'⚡'},
+ {id:'bolt',sec:3,name:'Задачи-молнии',sub:'устный счёт',c:'#00B4FF',c2:'#7B5CFF',unit:'очк.',better:'high',lv:[12,22],emoji:'🌩'},
+ {id:'compare',sec:3,name:'Сравни за секунды',sub:'>, <, =',c:'#3D7BFF',c2:'#00B4FF',unit:'очк.',better:'high',lv:[10,18],emoji:'⚖️'},
+ {id:'error',sec:4,name:'Найди ошибку за 10 секунд',sub:'верно или нет?',c:'#7B5CFF',c2:'#FF3D7F',unit:'очк.',better:'high',lv:[7,11],emoji:'🔍'},
+ {id:'shop',sec:5,name:'Быстрый магазин',sub:'сдача и покупки',c:'#21D19F',c2:'#9BE15D',unit:'очк.',better:'high',lv:[5,9],emoji:'🛒'},
+];
+const SECTIONS=['Базовые механизмы','Пространство и зрение','Задачи и головоломки','Игровые тренажёры','Мышление в жизни','Итоговые соревнования'];
+const best=id=>{const t=T.find(x=>x.id===id),h=(hist()[id]||[]).map(x=>x.v);if(!h.length)return null;return t.better==='low'?Math.min(...h):Math.max(...h)};
+const level=(t,v)=>v==null?0:(t.better==='low'?(v<=t.lv[1]?3:v<=t.lv[0]?2:1):(v>=t.lv[1]?3:v>=t.lv[0]?2:1));
+/* ---------- HOME TRACK (SVG) ---------- */
+const GATES=[[160,950,'react'],[640,865,'chain'],[160,780,'schulte'],[640,695,'flash'],[160,610,'bolt'],[640,525,'compare'],[160,440,'error'],[640,355,'shop'],[400,240,'teams']];
+const PTS=[[50,1000],...GATES.map(g=>[g[0],g[1]])];
+const pathD=(()=>{let d=`M${PTS[0][0]} ${PTS[0][1]}`;for(let i=0;i<PTS.length-1;i++){const p0=PTS[Math.max(0,i-1)],p1=PTS[i],p2=PTS[i+1],p3=PTS[Math.min(PTS.length-1,i+2)];const c1=[p1[0]+(p2[0]-p0[0])/6,p1[1]+(p2[1]-p0[1])/6],c2=[p2[0]-(p3[0]-p1[0])/6,p2[1]-(p3[1]-p1[1])/6];d+=` C${c1[0].toFixed(0)} ${c1[1].toFixed(0)}, ${c2[0].toFixed(0)} ${c2[1].toFixed(0)}, ${p2[0]} ${p2[1]}`}return d})();
+function buildTrack(){
+ let s=`<svg id="track" viewBox="0 0 800 1080" role="img" aria-label="Трасса с 8 станциями-тренажёрами и финишем">
+ <defs>
+  <linearGradient id="asph" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#3A2C7A"/><stop offset="1" stop-color="#231650"/></linearGradient>
+  <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFF7C2"/><stop offset=".6" stop-color="#FFD23F"/><stop offset="1" stop-color="#FF9F1C"/></radialGradient>
+  <linearGradient id="hill1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#6FE3A8"/><stop offset="1" stop-color="#16A06A"/></linearGradient>
+  <linearGradient id="hill2" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#A78BFF"/><stop offset="1" stop-color="#6A47E8"/></linearGradient>
+  <filter id="sh" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#2a0a5a" flood-opacity=".45"/></filter>
+  ${T.concat([{id:'teams',c:'#FFD23F',c2:'#FF3D7F'}]).map(t=>`<radialGradient id="g-${t.id}" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".25" stop-color="${t.c}"/><stop offset="1" stop-color="${t.c2}"/></radialGradient>`).join('')}
+ </defs>
+ <g class="sunrot">${Array.from({length:12},(_,i)=>{const a=i*Math.PI/6;return `<line x1="${820+Math.cos(a)*70}" y1="${90+Math.sin(a)*70}" x2="${820+Math.cos(a)*100}" y2="${90+Math.sin(a)*100}" stroke="#FFE27A" stroke-width="7" stroke-linecap="round" opacity=".7"/>`}).join('')}</g>
+ <circle cx="820" cy="90" r="56" fill="url(#sun)"/>
+ ${Array.from({length:18},(_,i)=>`<circle class="star" cx="${R(20,780)}" cy="${R(20,330)}" r="${R(1,3)}" fill="#fff" style="animation-delay:${(i%6)*.4}s"/>`).join('')}
+ <path d="M-3000 470 L-400 470 Q 0 330 300 420 T 900 370 L 3800 370 L 3800 3000 L -3000 3000 Z" fill="url(#hill2)" opacity=".75"/>
+ <path d="M-3000 700 L-400 700 Q 120 560 420 640 T 1200 600 L 3800 600 L 3800 3000 L -3000 3000 Z" fill="url(#hill1)"/>
+ <path d="M-3000 900 L-400 900 Q 200 820 500 880 T 1200 860 L 3800 860 L 3800 3000 L -3000 3000 Z" fill="#14B87A"/>
+ <path d="${pathD}" fill="none" stroke="#1B1240" stroke-width="74" stroke-linecap="round" opacity=".25" transform="translate(0 10)"/>
+ <path d="${pathD}" fill="none" stroke="url(#asph)" stroke-width="66" stroke-linecap="round"/>
+ <path d="${pathD}" fill="none" stroke="#fff" stroke-width="66" stroke-linecap="round" stroke-dasharray="0.1 999" opacity="0"/>
+ <path d="${pathD}" fill="none" stroke="#FF3D7F" stroke-width="70" stroke-linecap="round" stroke-dasharray="14 14" opacity=".55" style="mix-blend-mode:screen"/>
+ <path d="${pathD}" fill="none" stroke="url(#asph)" stroke-width="58" stroke-linecap="round"/>
+ <path class="dash" d="${pathD}" fill="none" stroke="#FFD23F" stroke-width="4" stroke-dasharray="22 22"/>
+ <g transform="translate(10 1015)"><rect x="0" y="0" width="60" height="44" rx="8" fill="#fff"/>${[0,1,2,3,4,5].map(i=>`<rect x="${(i%3)*20}" y="${Math.floor(i/3)*22}" width="10" height="11" fill="#1B1240"/><rect x="${(i%3)*20+10}" y="${Math.floor(i/3)*22+11}" width="10" height="11" fill="#1B1240"/>`).join('')}<text x="30" y="62" text-anchor="middle" class="ts" style="fill:#fff">СТАРТ</text></g>`;
+ GATES.forEach(([x,y,id],i)=>{
+  const t=T.find(z=>z.id===id)||{id:'teams',name:'Финиш: командный блиц',sub:'турнир команд',c:'#FFD23F',c2:'#FF3D7F',sec:6,emoji:'🏁'};
+  const right=x<400,fin=id==='teams',cy=y-48,lw=Math.max(t.name.length*14.5,t.sub.length*10.5+70)+40,lx=fin?x-lw/2:right?x+52:x-52-lw,ly=fin?cy-118:cy-31;
+  s+=`<g class="gate" data-go="${id}" tabindex="0" role="button" aria-label="${t.name} — ${t.sub}">
+   <ellipse cx="${x}" cy="${y+8}" rx="44" ry="11" fill="#1B1240" opacity=".35"/>
+   <g class="ball"><g class="float" style="animation-delay:${i*.25}s">
+    <rect x="${x-4}" y="${y-30}" width="8" height="38" rx="3" fill="#fff" opacity=".85"/>
+    <circle cx="${x}" cy="${cy}" r="44" fill="url(#g-${id})" filter="url(#sh)"/>
+    <circle class="ring" cx="${x}" cy="${cy}" r="44" fill="none" stroke="#fff" stroke-width="3" opacity=".9"/>
+    <text x="${x}" y="${cy+10}" text-anchor="middle" class="num">${fin?'🏁':i+1}</text>
+    <g filter="url(#sh)"><rect x="${lx}" y="${ly}" width="${lw}" height="62" rx="18" fill="#fff"/></g>
+    <rect x="${lx}" y="${ly}" width="10" height="62" rx="5" fill="${t.c}"/>
+    <text x="${lx+22}" y="${ly+27}" class="tt" style="fill:#1B1240;font-size:22px">${t.name}</text>
+    <text x="${lx+22}" y="${ly+50}" class="ts" style="fill:${t.c2==='#FFD23F'||t.c==='#FFB800'?'#B86A00':t.c};font-size:16px">${t.sub}<tspan class="stars" data-id="${id}" dx="8"></tspan></text>
+   </g></g></g>`});
+ s+=`<g id="car"><g transform="translate(-28 -18)"><rect x="4" y="10" width="52" height="20" rx="9" fill="#FF3D7F" filter="url(#sh)"/><path d="M16 10 Q22 0 36 0 Q44 0 48 10Z" fill="#7FE3FF" stroke="#FF3D7F" stroke-width="3"/><circle cx="16" cy="31" r="7" fill="#1B1240"/><circle cx="44" cy="31" r="7" fill="#1B1240"/><circle cx="16" cy="31" r="3" fill="#fff"/><circle cx="44" cy="31" r="3" fill="#fff"/><text x="30" y="25" text-anchor="middle" style="font:900 10px var(--display);fill:#fff">FS</text></g></g>`;
+ s+='</svg>';$('#stage').innerHTML=s;
+ $$('#track .gate').forEach(g=>{g.onclick=e=>open(g.dataset.go,e);g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(g.dataset.go)}}});
+ moveCar();
+ if(!reduce&&matchMedia('(pointer:fine)').matches){const h=$('#home'),sv=$('#track');h.addEventListener('pointermove',e=>{const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;sv.style.transform=`rotateY(${x*8}deg) rotateX(${-y*6}deg)`});h.addEventListener('pointerleave',()=>sv.style.transform='')}
+}
+function moveCar(){const car=$('#car');if(!car)return;const done=T.filter(t=>best(t.id)!=null).length;const g=done===0?[50,1000]:GATES[Math.min(done,GATES.length)-1];car.setAttribute('transform',`translate(${g[0]} ${g[1]+(done?22:0)})`);
+ $$('#track .stars').forEach(st=>{const t=T.find(x=>x.id===st.dataset.id);if(!t){st.innerHTML='';return}const lv=level(t,best(t.id));st.textContent=' '+'★'.repeat(lv)+'☆'.repeat(3-lv);st.setAttribute('fill','#FFB800')})}
+/* ---------- ROOMS ---------- */
+const ROOMS={};let cur=null,cleanup=null;
+function shell(id,t){const d=document.createElement('section');d.className='room';d.id='r-'+id;d.style.setProperty('--c',t.c);d.style.setProperty('--c2',t.c2);d.tabIndex=-1;d.setAttribute('aria-label',t.name);
+ d.innerHTML=`<div class="bar"><button class="back">← На трассу</button><div class="t"><b>${t.emoji||''} ${t.name}</b><small>${t.secName||''}</small></div><span class="pill" id="pl-${id}"></span></div><div class="wrap"></div>`;
+ d.querySelector('.back').onclick=()=>close();$('#rooms').appendChild(d);return d}
+function open(id,e){const r=ROOMS[id];if(!r)return;if(cur)close(false);const el=r.el;
+ if(e&&e.clientX){el.style.setProperty('--ox',e.clientX+'px');el.style.setProperty('--oy',e.clientY+'px')}
+ el.classList.add('open');el.scrollTop=0;document.body.style.overflow='hidden';cur=id;const pl=el.querySelector('.pill');if(pl)pl.textContent='Пилот: '+pilot();
+ cleanup=r.render(el.querySelector('.wrap'))||null;if(location.hash!=='#'+id)history.pushState({},'','#'+id);setTimeout(()=>el.focus({preventScroll:true}),40)}
+function close(push=true){if(!cur)return;if(cleanup)cleanup();cleanup=null;ROOMS[cur].el.classList.remove('open');document.body.style.overflow='';cur=null;moveCar();if(push)history.pushState({},'',location.pathname+location.search)}
+addEventListener('popstate',()=>{const k=location.hash.slice(1);if(ROOMS[k])open(k);else close(false)});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&cur)close()});
+function reg(id,meta,render){ROOMS[id]={el:shell(id,meta),render}}
+const head=(t,txt)=>`<div class="kick">Раздел ${t.sec}. ${SECTIONS[t.sec-1]}</div><h2>${t.emoji} ${t.name}</h2><p class="lead">${txt}</p>`;
+const lvName=['','Разгоняюсь','Уверенный темп','Скорость света'];
+function finish(t,val,box,extra=''){save(t.id,val);const h=(hist()[t.id]||[]).map(x=>x.v),prev=h.length>1?h[h.length-2]:null,b=best(t.id),lv=level(t,val);
+ const better=prev==null?null:(t.better==='low'?val<prev:val>prev);
+ box.innerHTML=`<div class="result"><div class="big">${val} ${t.unit}</div>
+ <p style="margin:6px 0"><span class="lvl l${lv}">${lvName[lv]}</span> · личный рекорд: <b>${b} ${t.unit}</b></p>
+ <p style="margin:6px 0;font-weight:700">${prev==null?'Первый заезд! Запомни результат — завтра обгонишь сам себя.':better?'🚀 Ты быстрее, чем в прошлый раз! Было: '+prev+' '+t.unit:'Хороший заезд! В прошлый раз: '+prev+' '+t.unit+'. Ещё круг — и рекорд твой.'}</p>${extra}</div>
+ <div class="hud" style="margin-top:10px"><button class="btn again">Ещё круг</button><button class="btn ghost home2">На трассу</button></div>`;
+ box.querySelector('.again').onclick=()=>open(t.id);box.querySelector('.home2').onclick=()=>close();
+ if(better||prev==null)confetti();}
+function timerBar(box,sec,onEnd){const i=box.querySelector('.timer i');const t0=performance.now();let raf;const tick=()=>{const p=Math.max(0,1-(performance.now()-t0)/(sec*1000));if(i)i.style.transform=`scaleX(${p})`;const lab=box.querySelector('.left');if(lab)lab.textContent=Math.ceil(p*sec)+' с';if(p<=0){onEnd();return}raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick);return()=>cancelAnimationFrame(raf)}
+const startScreen=(box,txt,go)=>{box.innerHTML=`<div class="arena"><div style="font-size:64px">🏎</div><p style="font-weight:700;max-width:460px;margin:0">${txt}</p><button class="btn go">Старт!</button></div>`;box.querySelector('.go').onclick=go;box.querySelector('.go').focus()};
+/* 1 REACTION */
+reg('react',{...T[0],secName:'Раздел 1 · '+SECTIONS[0]},w=>{const t=T[0];w.innerHTML=head(t,'Жди зелёного света и жми как можно быстрее. Пять попыток — считаем средний результат. Нажал раньше — фальстарт!')+'<div class="arena" id="ra"></div><p class="tip">💡 Совет: смотри в центр круга, а палец держи наготове. Скорость реакции растёт от тренировки к тренировке.</p>';
+ const box=w.querySelector('#ra');let tries=[],state='idle',to=null,t0=0;
+ const draw=(msg)=>{box.innerHTML=`<div class="hud"><span class="pill">Попытка ${Math.min(tries.length+1,5)} / 5</span></div><button class="light ${state==='wait'?'wait':state==='go'?'go':''}" id="lt">${msg}</button><div id="rmsg" style="font-weight:700;min-height:24px"></div>`;box.querySelector('#lt').onpointerdown=hit;box.querySelector('#lt').onkeydown=e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();hit()}};box.querySelector('#lt').focus()};
+ const arm=()=>{state='wait';draw('Жди…');to=setTimeout(()=>{state='go';t0=performance.now();const l=box.querySelector('#lt');l.className='light go';l.textContent='ЖМИ!'},R(1200,3500))};
+ function hit(){if(state==='idle'){arm();return}if(state==='wait'){clearTimeout(to);state='idle';draw('Фальстарт! Нажми, чтобы повторить');return}
+  if(state==='go'){const ms=Math.round(performance.now()-t0);tries.push(ms);state='idle';if(tries.length>=5){const avg=Math.round(tries.reduce((a,b)=>a+b,0)/5);finish(t,avg,box,`<p style="margin:0">Попытки: ${tries.join(' · ')} мс</p>`)}else{draw(ms+' мс — нажми для следующей')}}}
+ draw('Нажми, чтобы начать');return()=>clearTimeout(to)});
+/* 2 CHAIN */
+function genChain(){const k=R(0,5);let a,s;if(k===0){a=R(1,20);s=R(2,9);return[[a,a+s,a+2*s,a+3*s],a+4*s]}if(k===1){a=R(60,99);s=R(3,9);return[[a,a-s,a-2*s,a-3*s],a-4*s]}if(k===2){a=R(1,4);s=R(2,3);return[[a,a*s,a*s*s,a*s*s*s],a*s**4]}if(k===3){a=R(1,9);return[[a,a+1,a+3,a+6],a+10]}if(k===4){a=R(2,9);s=R(5,12);return[[a,a+s,a,a+s],a]}a=R(1,5);return[[a*a,(a+1)**2,(a+2)**2,(a+3)**2],(a+4)**2]}
+function quiz(t,w,secs,gen,show,tipTxt){w.innerHTML=head(t,tipTxt)+'<div class="arena" id="qa"></div>';const box=w.querySelector('#qa');let score=0,stop=null,q;
+ const next=()=>{q=gen();const opts=q.opts||shuf([q.ans,...new Set(Array.from({length:12},()=>q.ans+pick([-3,-2,-1,1,2,3,4,5,10,-10])).filter(x=>x!==q.ans))].slice(0,4));box.querySelector('.qq').innerHTML=show(q);const o=box.querySelector('.opts');o.innerHTML=opts.map(v=>`<button class="opt">${v}</button>`).join('');o.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const ok=b.textContent==String(q.ans);b.classList.add(ok?'ok':'no');if(ok)score++;box.querySelector('.sc').textContent=score;setTimeout(next,ok?160:420)})};
+ startScreen(box,`У тебя ${secs} секунд. Отвечай быстро и точно!`,()=>{box.innerHTML=`<div class="hud"><span class="pill">⏱ <span class="left">${secs} с</span></span><span class="pill">✅ <span class="sc">0</span></span></div><div class="timer"><i></i></div><div class="q qq"></div><div class="opts"></div>`;next();stop=timerBar(box,secs,()=>finish(t,score,box))});return()=>stop&&stop()}
+reg('chain',{...T[1],secName:'Раздел 1 · '+SECTIONS[0]},w=>quiz(T[1],w,60,()=>{const[s,a]=genChain();return{s,ans:a}},q=>q.s.join(', ')+', <span style="color:var(--c)">?</span>','Какое число следующее? Найди закономерность за секунды: +, −, ×, квадраты, «через один».'));
+/* 3 SCHULTE */
+reg('schulte',{...T[2],secName:'Раздел 2 · '+SECTIONS[1]},w=>{const t=T[2];w.innerHTML=head(t,'Находи и нажимай числа по порядку от 1 до 25. Смотри в центр таблицы — так взгляд охватывает всё поле.')+'<div class="arena" id="sa"></div>';const box=w.querySelector('#sa');let need=1,t0,raf;const cols=['#FF3D7F','#FF8A00','#FFB800','#21D19F','#00B4FF','#7B5CFF'];
+ startScreen(box,'Таблица 5×5. Время пойдёт после старта.',()=>{const nums=shuf(Array.from({length:25},(_,i)=>i+1));box.innerHTML=`<div class="hud"><span class="pill">Найди: <b class="nd">1</b></span><span class="pill">⏱ <b class="tm">0.0</b> с</span></div><div class="schulte">${nums.map((n,i)=>`<button style="background:${cols[(i*7)%6]}">${n}</button>`).join('')}</div>`;t0=performance.now();
+  const tick=()=>{box.querySelector('.tm').textContent=((performance.now()-t0)/1000).toFixed(1);raf=requestAnimationFrame(tick)};tick();
+  box.querySelectorAll('.schulte button').forEach(b=>b.onclick=()=>{if(+b.textContent===need){b.classList.add('done');need++;box.querySelector('.nd').textContent=need;if(need>25){cancelAnimationFrame(raf);finish(t,+((performance.now()-t0)/1000).toFixed(1),box)}}else{b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad')}})});return()=>cancelAnimationFrame(raf)});
+/* 4 FLASH memory */
+const SH={круг:'<circle cx="30" cy="30" r="24"/>',квадрат:'<rect x="8" y="8" width="44" height="44" rx="4"/>',треугольник:'<path d="M30 6 54 52H6Z"/>',звезда:'<path d="M30 4l7 16 17 2-13 11 4 17-15-9-15 9 4-17L6 22l17-2z"/>',ромб:'<path d="M30 4 56 30 30 56 4 30Z"/>',сердце:'<path d="M30 52 8 30C0 20 8 6 20 8c5 1 8 4 10 8 2-4 5-7 10-8 12-2 20 12 12 22Z"/>',шестиугольник:'<path d="M17 6h26l13 24-13 24H17L4 30Z"/>',полумесяц:'<path d="M38 6a26 26 0 1 0 0 48 20 20 0 1 1 0-48Z"/>',крест:'<path d="M22 4h16v18h18v16H38v18H22V38H4V22h18Z"/>'};
+const SC=['#FF3D7F','#FF8A00','#FFB800','#21D19F','#00B4FF','#7B5CFF'];
+const shp=(k,c)=>`<svg viewBox="0 0 60 60" aria-label="${k}"><g fill="${c}" stroke="#fff" stroke-width="2">${SH[k]}</g></svg>`;
+reg('flash',{...T[3],secName:'Раздел 2 · '+SECTIONS[1]},w=>{const t=T[3];w.innerHTML=head(t,'Фигуры вспыхнут на пару секунд. Потом одна исчезнет — какая? С каждым верным ответом фигур становится больше.')+'<div class="arena" id="fa"></div>';const box=w.querySelector('#fa');let n=3,bestN=0,lives=2,to=null;
+ const round=()=>{const keys=shuf(Object.keys(SH)).slice(0,n),cols=keys.map((_,i)=>SC[i%6]);box.innerHTML=`<div class="hud"><span class="pill">Фигур: ${n}</span><span class="pill">❤️ ${lives}</span></div><div class="flash">${keys.map((k,i)=>shp(k,cols[i])).join('')}</div><p style="font-weight:700;margin:0">Запоминай!</p>`;
+  to=setTimeout(()=>{const miss=R(0,n-1),rest=keys.filter((_,i)=>i!==miss);const others=shuf(Object.keys(SH).filter(k=>!keys.includes(k))).slice(0,3);const opts=shuf([keys[miss],...others]);
+   box.innerHTML=`<div class="hud"><span class="pill">Фигур: ${n}</span><span class="pill">❤️ ${lives}</span></div><div class="flash">${rest.map(k=>shp(k,'#C9BEEA')).join('')}</div><p style="font-weight:700;margin:0">Какой фигуры не стало?</p><div class="opts shapes">${opts.map(k=>`<button class="opt" data-k="${k}">${shp(k,SC[Object.keys(SH).indexOf(k)%6])}</button>`).join('')}</div>`;
+   box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const ok=b.dataset.k===keys[miss];b.classList.add(ok?'ok':'no');if(ok){bestN=Math.max(bestN,n);n=Math.min(n+1,9)}else{lives--}setTimeout(()=>{if(lives<=0||(ok&&bestN===9))finish(t,bestN,box);else round()},500)})},700+n*350)};
+ startScreen(box,'Начинаем с трёх фигур. Две ошибки — заезд окончен.',round);return()=>clearTimeout(to)});
+/* 5 BOLT arithmetic */
+function genBolt(level){const k=R(0,level>8?4:2);let a,b;if(k===0){a=R(10,90);b=R(5,40);return{s:`${a} + ${b}`,ans:a+b}}if(k===1){a=R(30,99);b=R(5,a-1);return{s:`${a} − ${b}`,ans:a-b}}if(k===2){a=R(2,9);b=R(2,9);return{s:`${a} × ${b}`,ans:a*b}}if(k===3){b=R(2,9);a=b*R(2,9);return{s:`${a} : ${b}`,ans:a/b}}a=R(2,9);b=R(2,9);const c=R(1,20);return{s:`${a} × ${b} + ${c}`,ans:a*b+c}}
+reg('bolt',{...T[4],secName:'Раздел 3 · '+SECTIONS[2]},w=>{let n=0;return quiz(T[4],w,60,()=>genBolt(n++),q=>q.s+' = <span style="color:var(--c)">?</span>','Устный счёт на время: сложение, вычитание, таблица умножения и деление. Чем больше верных — тем сложнее примеры.')});
+/* 6 COMPARE */
+reg('compare',{...T[5],secName:'Раздел 3 · '+SECTIONS[2]},w=>quiz(T[5],w,45,()=>{const A=genBolt(R(0,12)),B=Math.random()<.3?{s:String(A.ans),ans:A.ans}:genBolt(R(0,12));const ans=A.ans>B.ans?'>':A.ans<B.ans?'<':'=';return{a:A.s,b:B.s,ans,opts:['<','=','>']}},q=>`${q.a} <span style="color:var(--c)">?</span> ${q.b}`,'Сравни выражения: больше, меньше или равно? Сначала прикинь, потом считай точно.'));
+/* 7 ERROR 10 sec */
+reg('error',{...T[6],secName:'Раздел 4 · '+SECTIONS[3]},w=>{const t=T[6];w.innerHTML=head(t,'Пример уже решён. Верно или с ошибкой? На каждый — 10 секунд. Всего 12 примеров.')+'<div class="arena" id="ea"></div>';const box=w.querySelector('#ea');let i=0,score=0,stop=null;
+ const next=()=>{if(stop)stop();if(i>=12){finish(t,score,box);return}i++;const q=genBolt(R(0,12));const wrong=Math.random()<.5;const shown=wrong?q.ans+pick([-10,-2,-1,1,2,10]):q.ans;
+  box.innerHTML=`<div class="hud"><span class="pill">Пример ${i} / 12</span><span class="pill">✅ ${score}</span><span class="pill">⏱ <span class="left">10 с</span></span></div><div class="timer"><i></i></div><div class="q">${q.s} = ${shown}</div><div class="opts"><button class="opt" data-v="1">✔ Верно</button><button class="opt" data-v="0">✘ Ошибка</button></div>`;
+  box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const ok=(b.dataset.v==='1')===!wrong;b.classList.add(ok?'ok':'no');if(ok)score++;stop&&stop();setTimeout(next,350)});stop=timerBar(box,10,()=>setTimeout(next,100))};
+ startScreen(box,'Будь внимателен: ошибка может прятаться в одной цифре!',next);return()=>stop&&stop()});
+/* 8 SHOP */
+const GOODS=[['🍎','яблоко'],['🥛','молоко'],['🍞','хлеб'],['✏️','карандаш'],['📒','тетрадь'],['🧃','сок'],['🍫','шоколадка'],['🎈','шарик']];
+reg('shop',{...T[7],secName:'Раздел 5 · '+SECTIONS[4]},w=>{const t=T[7];w.innerHTML=head(t,'Ты кассир! Посчитай, сколько сдачи нужно дать покупателю. На каждого покупателя — 15 секунд, всего 10 покупателей.')+'<div class="arena" id="sh"></div>';const box=w.querySelector('#sh');let i=0,score=0,stop=null;
+ const next=()=>{if(stop)stop();if(i>=10){finish(t,score,box);return}i++;const items=shuf(GOODS).slice(0,R(1,3)).map(g=>[...g,R(1,9)*10+pick([0,0,5])]);const sum=items.reduce((a,g)=>a+g[2],0);const pay=[100,200,500].find(x=>x>sum)||1000;const ans=pay-sum;const opts=shuf([ans,...shuf([ans+10,ans-10,ans+5,ans-5,ans+20].filter(x=>x>=0&&x!==ans)).slice(0,3)]);
+  box.innerHTML=`<div class="hud"><span class="pill">Покупатель ${i} / 10</span><span class="pill">✅ ${score}</span><span class="pill">⏱ <span class="left">15 с</span></span></div><div class="timer"><i></i></div><div style="font-size:clamp(18px,3vw,24px);font-weight:700">${items.map(g=>`${g[0]} ${g[1]} — <b>${g[2]} ₸</b>`).join('<br>')}</div><div class="q">Дал ${pay} ₸. Сдача?</div><div class="opts">${opts.map(v=>`<button class="opt">${v} ₸</button>`).join('')}</div>`;
+  box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const ok=parseInt(b.textContent)===ans;b.classList.add(ok?'ok':'no');if(ok)score++;stop&&stop();setTimeout(next,400)});stop=timerBar(box,15,()=>setTimeout(next,100))};
+ startScreen(box,'Цены — в тенге. Совет: сначала сложи покупки, потом вычитай из купюры.',next);return()=>stop&&stop()});
+/* RECORDS */
+reg('records',{name:'Мой гараж рекордов',c:'#FFB800',c2:'#FF3D7F',emoji:'🏆',secName:'личный прогресс пилота'},w=>{const h=hist();
+ const sp=a=>{if(a.length<2)return '';const mn=Math.min(...a),mx=Math.max(...a),r=mx-mn||1;return `<svg class="spark" viewBox="0 0 120 32"><polyline fill="none" stroke="var(--c)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="${a.slice(-10).map((v,i,arr)=>`${(i/(arr.length-1||1))*116+2},${30-((v-mn)/r)*26}`).join(' ')}"/></svg>`};
+ w.innerHTML=`<div class="kick">Пилот: ${esc(pilot())}</div><h2>🏆 Мой гараж рекордов</h2><p class="lead">Здесь ты соревнуешься только с собой: лучший результат, последний заезд и линия роста. Звёзды — уровень по критериям программы: ☆ разгоняюсь, ⭐⭐ уверенный темп, ⭐⭐⭐ скорость света.</p>
+ <div class="card" style="overflow-x:auto"><table><tr><th>Тренажёр</th><th>Заездов</th><th>Последний</th><th>Рекорд</th><th>Уровень</th><th>Рост</th></tr>${T.map(t=>{const a=(h[t.id]||[]).map(x=>x.v),b=best(t.id),lv=level(t,b);return `<tr><td><b>${t.emoji} ${t.name}</b></td><td>${a.length}</td><td>${a.length?a[a.length-1]+' '+t.unit:'—'}</td><td>${b==null?'—':b+' '+t.unit}</td><td>${lv?`<span class="lvl l${lv}">${'⭐'.repeat(lv)}</span>`:'—'}</td><td>${sp(t.better==='low'?a.map(v=>-v):a)}</td></tr>`}).join('')}</table></div>
+ <div class="hud" style="margin-top:14px"><button class="btn ghost" id="clr">Очистить мои результаты</button></div><p class="tip">Результаты хранятся только на этом устройстве (в браузере). На общем компьютере каждый ученик вписывает своё имя в поле «Пилот».</p>`;
+ w.querySelector('#clr').onclick=()=>{if(w.querySelector('#clr').dataset.s){const all=store.get('hist',{});delete all[pilot()];store.set('hist',all);open('records')}else{w.querySelector('#clr').dataset.s=1;w.querySelector('#clr').textContent='Нажми ещё раз, чтобы удалить'}}});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+/* TEAMS */
+reg('teams',{name:'Командный блиц-турнир',c:'#FF3D7F',c2:'#7B5CFF',emoji:'⚡',secName:'Раздел 6 · '+SECTIONS[5]},w=>{let sc=[0,0],round=0,q=null,stop=null;
+ w.innerHTML=`<div class="kick">Раздел 6. ${SECTIONS[5]}</div><h2>⚡ Командный блиц-турнир</h2><p class="lead">Для интерактивной панели. Учитель нажимает «Вопрос», команды решают; кто первым ответил верно — учитель добавляет очко. 10 раундов по 20 секунд.</p>
+ <div class="arena"><div class="hud"><span class="pill">Раунд <b id="rd">0</b> / 10</span><span class="pill">⏱ <span class="left">20 с</span></span></div><div class="timer"><i></i></div><div class="q" id="tq">Готовы?</div><div id="ta" style="font-weight:800;min-height:26px"></div>
+ <div class="hud"><button class="btn" id="nq">Вопрос</button><button class="btn ghost" id="sa">Показать ответ</button></div>
+ <div class="teams">${[['#FF3D7F','#FF8A00','Молнии'],['#00B4FF','#7B5CFF','Ракеты']].map((c,i)=>`<div class="team" style="background:linear-gradient(135deg,${c[0]},${c[1]})"><input value="${c[2]}" aria-label="Название команды ${i+1}"><div class="sc" id="s${i}">0</div><div class="row"><button data-t="${i}" data-d="1">+1</button><button data-t="${i}" data-d="-1">−1</button></div></div>`).join('')}</div></div>`;
+ const gens=[()=>genBolt(R(0,14)),()=>{const[s,a]=genChain();return{s:s.join(', ')+', ?',ans:a}},()=>{const it=shuf(GOODS).slice(0,2).map(g=>[...g,R(2,9)*10]);const s=it[0][2]+it[1][2];return{s:`${it[0][0]} ${it[0][2]} ₸ + ${it[1][0]} ${it[1][2]} ₸. Сдача с 200?`,ans:200-s+' ₸'}}];
+ w.querySelector('#nq').onclick=()=>{if(round>=10){end();return}round++;w.querySelector('#rd').textContent=round;q=pick(gens)();w.querySelector('#tq').textContent=q.s.includes('?')?q.s:q.s+' = ?';w.querySelector('#ta').textContent='';stop&&stop();stop=timerBar(w.querySelector('.arena'),20,()=>{w.querySelector('#ta').textContent='Время! Ответ: '+q.ans})};
+ w.querySelector('#sa').onclick=()=>{if(q)w.querySelector('#ta').textContent='Ответ: '+q.ans};
+ w.querySelectorAll('.team button').forEach(b=>b.onclick=()=>{const i=+b.dataset.t;sc[i]=Math.max(0,sc[i]+ +b.dataset.d);w.querySelector('#s'+i).textContent=sc[i]});
+ const end=()=>{const n=[...w.querySelectorAll('.team input')].map(x=>x.value);w.querySelector('#tq').textContent=sc[0]===sc[1]?'Ничья! Победила дружба 🤝':'Победа команды «'+(sc[0]>sc[1]?n[0]:n[1])+'»! 🏆';confetti()};
+ return()=>stop&&stop()});
+/* CERT */
+reg('cert',{name:'Фестиваль быстрых умов',c:'#FFB800',c2:'#7B5CFF',emoji:'🎖',secName:'Раздел 6 · итоговое занятие'},w=>{const n=T.filter(t=>best(t.id)!=null).length,stars=T.reduce((a,t)=>a+level(t,best(t.id)),0);
+ w.innerHTML=`<div class="kick">Раздел 6. Занятие 34</div><h2>🎖 Фестиваль быстрых умов</h2><p class="lead">Пройди все 8 тренажёров — и получи диплом пилота. Его можно распечатать.</p>
+ <div class="arena"><div class="cert"><div style="font-size:46px">🏁</div><h3>ДИПЛОМ ПИЛОТА «ФОРМУЛЫ СКОРОСТИ»</h3><p style="margin:6px 0;font-weight:700">награждается</p><div class="nm">${esc(pilot())}</div><p style="margin:6px 0;font-weight:700">пройдено тренажёров: ${n} из 8 · звёзд скорости: ${stars} из 24</p><p style="margin:6px 0">${n<8?'Осталось '+(8-n)+' — вперёд, на трассу!':stars>=18?'Скорость света! Ты — гордость команды.':'Отличная гонка! Каждый круг делает тебя быстрее.'}</p><p style="margin:14px 0 0;font-size:13px;color:var(--muted)">Учитель: ________________ · Дата: ${new Date().toLocaleDateString('ru-RU')}</p></div>
+ <div class="hud noprint"><button class="btn" id="pr">Распечатать</button></div></div>`;w.querySelector('#pr').onclick=()=>print();if(n===8)confetti()});
+/* TEACHER */
+reg('teacher',{name:'Учителю',c:'#7B5CFF',c2:'#00B4FF',emoji:'📘',secName:'как использовать тренажёры на занятии'},w=>{
+ w.innerHTML=`<div class="kick">Методическая страница</div><h2>📘 Как работать с «Формулой скорости»</h2><p class="lead">Сайт — цифровое сопровождение авторской программы «Развитие скорости мышления: тренажёры, игры, соревнования» (3–4 классы, 34 часа). Каждый тренажёр соответствует разделу программы.</p>
+ <div class="grid">${T.map(t=>`<div class="card" style="--c:${t.c}"><span class="pill" style="--c:${t.c}">Раздел ${t.sec}</span><h3 style="font-size:17px;margin:8px 0 4px">${t.emoji} ${t.name}</h3><p style="margin:0;color:var(--muted)">${t.sub}. Уровни: ${t.better==='low'?`≤ ${t.lv[1]} ${t.unit} — высокий, ≤ ${t.lv[0]} — средний`:`≥ ${t.lv[1]} ${t.unit} — высокий, ≥ ${t.lv[0]} — средний`}</p></div>`).join('')}</div>
+ <div class="card" style="margin-top:14px"><h3 style="font-size:17px">Структура занятия (40 минут)</h3><ol style="margin:8px 0 0;padding-left:20px;line-height:1.6"><li><b>Разминка «Светофор»</b> (5 мин) — 2–3 ученика у панели, класс считает вслух.</li><li><b>Тренажёр раздела</b> (10 мин) — фронтально на панели или по очереди.</li><li><b>Игра или соревнование</b> по программе (15 мин) — карточки, домино, квест.</li><li><b>Командный блиц</b> (7 мин) — две команды, 5 раундов.</li><li><b>Рефлексия</b> (3 мин) — «Я стал быстрее, потому что…», запись в гараж рекордов.</li></ol></div>
+ <p class="tip">Главный принцип программы: ребёнок соревнуется с самим собой. Поэтому на сайте нет общего рейтинга учеников — только личные рекорды и линия роста. Результаты хранятся в браузере устройства.</p>`});
+/* confetti */
+function confetti(){if(reduce)return;const cv=$('#conf'),x=cv.getContext('2d');cv.width=innerWidth;cv.height=innerHeight;const P=Array.from({length:140},()=>({x:innerWidth/2,y:innerHeight*.35,vx:(Math.random()-.5)*16,vy:Math.random()*-14-4,c:pick(SC),s:R(6,11),r:Math.random()*6}));let f=0;const st=()=>{x.clearRect(0,0,cv.width,cv.height);P.forEach(p=>{p.vy+=.45;p.x+=p.vx;p.y+=p.vy;p.r+=.2;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);x.restore()});if(++f<110)requestAnimationFrame(st);else x.clearRect(0,0,cv.width,cv.height)};st()}
+/* chips */
+$$('.chip[data-go]').forEach(b=>b.onclick=e=>open(b.dataset.go,e));
+buildTrack();
+if(location.hash&&ROOMS[location.hash.slice(1)])open(location.hash.slice(1));
+})();
+</script>
+</body>
+</html>
