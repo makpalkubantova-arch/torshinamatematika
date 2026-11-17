@@ -135,7 +135,7 @@ footer{background:#1B1240;color:#CFC6F2;text-align:center;font-size:13px;padding
 <header class="home" id="home">
   <div class="top">
     <div class="brand"><div class="logo" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M16 2 6 16h7l-2 10 11-15h-7z" fill="#fff"/></svg></div><div><b>Формула скорости</b><small>тренажёры быстрого мышления · 3–4 классы</small></div></div>
-    <label class="pilot">Пилот: <input id="pilot" maxlength="20" placeholder="Твоё имя" autocomplete="off"></label>
+    <label class="pilot">Пилот: <input id="pilot" maxlength="20" placeholder="Твоё имя" autocomplete="off" list="pilots"><datalist id="pilots"></datalist></label><span id="modeBadge" style="display:none;margin-left:8px;background:#FF3D7F;color:#fff;border-radius:999px;padding:6px 12px;font-weight:800;font-size:13px"></span>
   </div>
   <div class="hero">
     <h1>Гонка <span>быстрых умов</span></h1>
@@ -148,6 +148,7 @@ footer{background:#1B1240;color:#CFC6F2;text-align:center;font-size:13px;padding
       <button class="chip" data-go="teams">⚡ Командный блиц</button>
       <button class="chip" data-go="cert">🎖 Фестиваль быстрых умов</button>
       <button class="chip" data-go="teacher">📘 Учителю</button>
+      <button class="chip" data-go="journal">📊 Журнал замеров</button>
     </div>
   </div>
 </header>
@@ -166,7 +167,7 @@ const store={get(k,d){try{const v=localStorage.getItem('fs_'+k);return v?JSON.pa
 let MEM={};const pilot=()=>($('#pilot').value.trim()||'Гость');
 $('#pilot').value=store.get('pilot','');$('#pilot').addEventListener('change',()=>{store.set('pilot',$('#pilot').value.trim());moveCar()});
 function hist(){const all=store.get('hist',{});return all[pilot()]||{}}
-function save(id,val){const all=store.get('hist',{});const me=all[pilot()]||{};(me[id]=me[id]||[]).push({v:val,t:Date.now()});if(me[id].length>40)me[id].shift();all[pilot()]=me;store.set('hist',all);moveCar()}
+function save(id,val){const all=store.get('hist',{});const me=all[pilot()]||{};const rec={v:val,t:Date.now()};if(store.get('mode',false))rec.s=store.get('stage','start');(me[id]=me[id]||[]).push(rec);if(me[id].length>80)me[id].shift();all[pilot()]=me;store.set('hist',all);moveCar()}
 /* ---------- trainers meta ---------- */
 // better: 'low' = less is better (time), 'high' = more is better
 const T=[
@@ -334,9 +335,64 @@ reg('teacher',{name:'Учителю',c:'#7B5CFF',c2:'#00B4FF',emoji:'📘',secNa
  w.innerHTML=`<div class="kick">Методическая страница</div><h2>📘 Как работать с «Формулой скорости»</h2><p class="lead">Сайт — цифровое сопровождение авторской программы «Развитие скорости мышления: тренажёры, игры, соревнования» (3–4 классы, 34 часа). Каждый тренажёр соответствует разделу программы.</p>
  <div class="grid">${T.map(t=>`<div class="card" style="--c:${t.c}"><span class="pill" style="--c:${t.c}">Раздел ${t.sec}</span><h3 style="font-size:17px;margin:8px 0 4px">${t.emoji} ${t.name}</h3><p style="margin:0;color:var(--muted)">${t.sub}. Уровни: ${t.better==='low'?`≤ ${t.lv[1]} ${t.unit} — высокий, ≤ ${t.lv[0]} — средний`:`≥ ${t.lv[1]} ${t.unit} — высокий, ≥ ${t.lv[0]} — средний`}</p></div>`).join('')}</div>
  <div class="card" style="margin-top:14px"><h3 style="font-size:17px">Структура занятия (40 минут)</h3><ol style="margin:8px 0 0;padding-left:20px;line-height:1.6"><li><b>Разминка «Светофор»</b> (5 мин) — 2–3 ученика у панели, класс считает вслух.</li><li><b>Тренажёр раздела</b> (10 мин) — фронтально на панели или по очереди.</li><li><b>Игра или соревнование</b> по программе (15 мин) — карточки, домино, квест.</li><li><b>Командный блиц</b> (7 мин) — две команды, 5 раундов.</li><li><b>Рефлексия</b> (3 мин) — «Я стал быстрее, потому что…», запись в гараж рекордов.</li></ol></div>
- <p class="tip">Главный принцип программы: ребёнок соревнуется с самим собой. Поэтому на сайте нет общего рейтинга учеников — только личные рекорды и линия роста. Результаты хранятся в браузере устройства.</p>`});
+ <p class="tip">Главный принцип программы: ребёнок соревнуется с самим собой. Поэтому на сайте нет общего рейтинга учеников — только личные рекорды и линия роста. Результаты хранятся в браузере устройства. <b>Диагностика класса:</b> откройте «📊 Журнал замеров», включите «Режим замера» и выберите этап (старт, четверти, итог) — результаты всех учеников соберутся в таблицу, которую можно скачать для Excel; там же — сравнение «было → стало» в процентах.</p>`});
 /* confetti */
 function confetti(){if(reduce)return;const cv=$('#conf'),x=cv.getContext('2d');cv.width=innerWidth;cv.height=innerHeight;const P=Array.from({length:140},()=>({x:innerWidth/2,y:innerHeight*.35,vx:(Math.random()-.5)*16,vy:Math.random()*-14-4,c:pick(SC),s:R(6,11),r:Math.random()*6}));let f=0;const st=()=>{x.clearRect(0,0,cv.width,cv.height);P.forEach(p=>{p.vy+=.45;p.x+=p.vx;p.y+=p.vy;p.r+=.2;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);x.restore()});if(++f<110)requestAnimationFrame(st);else x.clearRect(0,0,cv.width,cv.height)};st()}
+
+/* JOURNAL */
+const STAGES=[['start','Старт (декабрь)'],['q2','Конец 2-й четверти'],['q3','Конец 3-й четверти'],['final','Итог (май)']];
+const stName=k=>(STAGES.find(x=>x[0]===k)||[k,k])[1];
+function roster(){const r=store.get('roster',[]);const h=Object.keys(store.get('hist',{})).filter(n=>n!=='Гость');return [...new Set([...r,...h])].sort((a,b)=>a.localeCompare(b,'ru'))}
+function fillPilots(){const dl=$('#pilots');if(dl)dl.innerHTML=roster().map(n=>`<option value="${esc(n)}">`).join('')}
+function badge(){const b=$('#modeBadge');if(!b)return;if(store.get('mode',false)){b.style.display='inline-block';b.textContent='● Идёт замер: '+stName(store.get('stage','start'))}else b.style.display='none'}
+function bestIn(p,t,st){const a=((store.get('hist',{})[p]||{})[t.id]||[]).filter(x=>x.s===st).map(x=>x.v);if(!a.length)return null;return t.better==='low'?Math.min(...a):Math.max(...a)}
+function pct(t,a,b){if(a==null||b==null||!a)return null;const d=t.better==='low'?(a-b)/a:(b-a)/a;return Math.round(d*100)}
+function dl(name,text,type){const blob=new Blob([text],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+const TM=T.filter(t=>t.unit);
+reg('journal',{name:'Журнал замеров',c:'#21D19F',c2:'#00B4FF',emoji:'📊',secName:'для учителя: диагностика класса'},w=>{
+ const draw=()=>{const mode=store.get('mode',false),stage=store.get('stage','start'),view=store.get('jview','stage'),self=store.get('self',{});const R=roster();
+ const cell=(t,v)=>{if(v==null)return '—';const lv=level(t,v);return `${v}${lv?` <span class="lvl l${lv}">${'⭐'.repeat(lv)}</span>`:''}`};
+ let table='';
+ if(view==='stage'){table=`<table><tr><th>Пилот</th>${TM.map(t=>`<th>${t.emoji} ${t.name}, ${t.unit}</th>`).join('')}<th>Самооценка (1–5)</th></tr>${R.map(p=>`<tr><td><b>${esc(p)}</b></td>${TM.map(t=>`<td>${cell(t,bestIn(p,t,stage))}</td>`).join('')}<td><select data-p="${esc(p)}" class="sa"><option value="">—</option>${[1,2,3,4,5].map(n=>`<option ${((self[p]||{})[stage]==n)?'selected':''}>${n}</option>`).join('')}</select></td></tr>`).join('')}</table>`}
+ else{const a=store.get('cmpA','start'),b=store.get('cmpB','final');table=`<table><tr><th>Пилот</th>${TM.map(t=>`<th>${t.emoji} ${t.name}</th>`).join('')}</tr>${R.map(p=>`<tr><td><b>${esc(p)}</b></td>${TM.map(t=>{const x=bestIn(p,t,a),y=bestIn(p,t,b),c=pct(t,x,y);return `<td>${x??'—'} → ${y??'—'}${c==null?'':` <b style="color:${c>=0?'#0B7A55':'#B0103F'}">${c>0?'+':''}${c}%</b>`}</td>`}).join('')}</tr>`).join('')}</table>`;
+  const avg=TM.map(t=>{const cs=R.map(p=>pct(t,bestIn(p,t,a),bestIn(p,t,b))).filter(x=>x!=null);return cs.length?`<div class="card" style="min-width:150px"><div class="kick">${t.emoji} ${t.name}</div><div style="font-size:28px;font-weight:900">${cs.reduce((x,y)=>x+y,0)/cs.length>0?'+':''}${Math.round(cs.reduce((x,y)=>x+y,0)/cs.length)}%</div><small>в среднем по ${cs.length} уч.</small></div>`:''}).join('');
+  table=`<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px">${avg||'<p class="tip">Пока нет данных для сравнения: нужны замеры на обоих этапах.</p>'}</div>`+table}
+ w.innerHTML=`<div class="kick">Для учителя</div><h2>📊 Журнал замеров класса</h2>
+ <p class="lead">Включите «Режим замера», выберите этап и по очереди пропустите учеников через станции: каждый вписывает своё имя в поле «Пилот» на главном экране. Все результаты в режиме замера попадают в журнал этого этапа.</p>
+ <div class="card"><div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+  <label style="font-weight:800"><input type="checkbox" id="mode" ${mode?'checked':''} style="width:22px;height:22px;vertical-align:middle"> Режим замера</label>
+  <label>Этап: <select id="stage">${STAGES.map(x=>`<option value="${x[0]}" ${x[0]===stage?'selected':''}>${x[1]}</option>`).join('')}</select></label>
+  <span class="tip" style="margin:0">${mode?'🔴 Сейчас идёт замер: <b>'+stName(stage)+'</b>':'Режим выключен: результаты идут только в личный «Гараж рекордов».'}</span></div></div>
+ <div class="card" style="margin-top:12px"><div class="kick">Список класса</div><p class="tip" style="margin:4px 0 8px">Впишите имена учеников — по одному в строке. Они появятся подсказкой в поле «Пилот».</p>
+  <textarea id="ros" rows="4" style="width:100%;border-radius:14px;border:2px solid #EEE6F7;padding:10px;font:inherit">${esc(store.get('roster',[]).join('\n'))}</textarea>
+  <div class="hud" style="margin-top:8px"><button class="btn" id="rsave">Сохранить список</button></div></div>
+ <div class="row" style="justify-content:flex-start;margin:14px 0">
+  <button class="chip ${view==='stage'?'gold':''}" id="v1">Результаты этапа</button>
+  <button class="chip ${view==='cmp'?'gold':''}" id="v2">Сравнение «было → стало»</button>
+  ${view==='cmp'?`<select id="ca">${STAGES.map(x=>`<option value="${x[0]}" ${x[0]===store.get('cmpA','start')?'selected':''}>${x[1]}</option>`).join('')}</select> → <select id="cb">${STAGES.map(x=>`<option value="${x[0]}" ${x[0]===store.get('cmpB','final')?'selected':''}>${x[1]}</option>`).join('')}</select>`:''}</div>
+ <div class="card" style="overflow-x:auto">${R.length?table:'<p class="tip">Пока нет учеников. Добавьте список класса или проведите первые заезды.</p>'}</div>
+ <div class="hud" style="margin-top:14px;flex-wrap:wrap;gap:10px">
+  <button class="btn" id="csv">⬇ Скачать для Excel</button>
+  <button class="btn ghost" id="bak">💾 Сохранить резервную копию</button>
+  <label class="btn ghost" style="cursor:pointer">📂 Загрузить копию<input type="file" id="imp" accept=".json" style="display:none"></label>
+  <button class="btn ghost" id="prn">🖨 Печать</button></div>
+ <p class="tip">Данные хранятся в браузере этого устройства. После каждого замера скачайте файл для Excel и сохраните резервную копию — тогда результаты не потеряются при очистке браузера или смене панели.</p>`;
+ const q=x=>w.querySelector(x);
+ q('#mode').onchange=e=>{store.set('mode',e.target.checked);badge();draw()};
+ q('#stage').onchange=e=>{store.set('stage',e.target.value);badge();draw()};
+ q('#rsave').onclick=()=>{store.set('roster',q('#ros').value.split('\n').map(x=>x.trim()).filter(Boolean));fillPilots();draw()};
+ q('#v1').onclick=()=>{store.set('jview','stage');draw()};q('#v2').onclick=()=>{store.set('jview','cmp');draw()};
+ if(q('#ca'))q('#ca').onchange=e=>{store.set('cmpA',e.target.value);draw()};if(q('#cb'))q('#cb').onchange=e=>{store.set('cmpB',e.target.value);draw()};
+ w.querySelectorAll('.sa').forEach(sel=>sel.onchange=()=>{const s2=store.get('self',{});(s2[sel.dataset.p]=s2[sel.dataset.p]||{})[stage]=sel.value?+sel.value:null;store.set('self',s2)});
+ q('#csv').onclick=()=>{const H=store.get('hist',{}),S=store.get('self',{});const rows=[['Пилот','Тренажёр','Раздел','Этап','Результат','Единицы','Дата']];
+  Object.keys(H).forEach(p=>T.forEach(t=>(H[p][t.id]||[]).forEach(r=>rows.push([p,t.name,t.sec,r.s?stName(r.s):'тренировка',r.v,t.unit||'',new Date(r.t).toLocaleString('ru-RU')]))));
+  rows.push([]);rows.push(['Пилот','Этап','Самооценка (1–5)']);Object.keys(S).forEach(p=>Object.keys(S[p]).forEach(k=>S[p][k]&&rows.push([p,stName(k),S[p][k]])));
+  dl('Формула_скорости_замеры.csv','﻿'+rows.map(r=>r.map(c=>`"${String(c??'').replace(/"/g,'""')}"`).join(';')).join('\r\n'),'text/csv;charset=utf-8')};
+ q('#bak').onclick=()=>{const data={};['hist','roster','self','pilot'].forEach(k=>data[k]=store.get(k,null));dl('Формула_скорости_копия_'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify(data),'application/json')};
+ q('#imp').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const d=JSON.parse(rd.result);const H=store.get('hist',{});Object.entries(d.hist||{}).forEach(([p,o])=>{H[p]=H[p]||{};Object.entries(o).forEach(([id,arr])=>{const ex=new Set((H[p][id]||[]).map(x=>x.t));H[p][id]=[...(H[p][id]||[]),...arr.filter(x=>!ex.has(x.t))].sort((a,b)=>a.t-b.t)})});store.set('hist',H);store.set('roster',[...new Set([...(store.get('roster',[])),...(d.roster||[])])]);const S=store.get('self',{});Object.entries(d.self||{}).forEach(([p,o])=>S[p]={...(S[p]||{}),...o});store.set('self',S);fillPilots();draw()}catch(err){alert('Не удалось прочитать файл копии')}};rd.readAsText(f)};
+ q('#prn').onclick=()=>window.print();};
+ draw()});
+fillPilots();badge();
 /* chips */
 $$('.chip[data-go]').forEach(b=>b.onclick=e=>open(b.dataset.go,e));
 buildTrack();
